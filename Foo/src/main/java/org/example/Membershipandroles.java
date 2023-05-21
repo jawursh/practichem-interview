@@ -6,9 +6,6 @@ import java.util.stream.*;
 public class Membershipandroles {
     // Data classes. Please do not change this code.
     public static class User {
-        /**
-         * really need accessors on this class to be able to filter by user ID         * @Data with lombok could help here :)
-         */
         public Integer id;
         public String name;
 
