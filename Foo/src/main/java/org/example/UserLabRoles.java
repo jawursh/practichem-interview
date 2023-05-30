@@ -1,7 +1,9 @@
 package org.example;
 
+import javax.management.relation.Role;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
@@ -32,7 +34,6 @@ public class UserLabRoles {
                 .filter((role) -> role.user.equals(this.userId))
                 .collect(Collectors.toList());
 
-
         for (LabRole role : roles) {
             Lab lab = LABS.stream()
                     .filter((theLab) -> theLab.id.equals(role.lab))
@@ -45,13 +46,29 @@ public class UserLabRoles {
 
     public List<LabRole> getLabRoles(Integer labId) {
         List<LabRole> roles = LAB_ROLES.stream()
-                .filter((role) -> role.user.equals(this.userId))
+                .filter(Objects::nonNull)
+                .filter((role) -> {
+                    if (role.user == null) {
+                        return false;
+                    } else {
+                        return role.user.equals(this.userId);
+                    }
+                })
                 .collect(Collectors.toList());
         return roles;
     }
 
     /**
-     * OWNER - 1         * ADMIN - 2         * MEMBER - 3         * GUEST - 4         *         * NOTE: if user has both ADMIN AND GUEST, ADMIN takes priority
+     * TODO: should this return a LabRole?
+     */
+
+    /**
+     * OWNER - 1
+     * ADMIN - 2
+     * MEMBER - 3
+     * GUEST - 4
+     * NOTE: if user has both ADMIN AND GUEST, ADMIN takes priority
+     *
      */
     public String getHighestLabRole(Integer labId) {
         ArrayList<String> roleStrings = new ArrayList<>();
@@ -74,9 +91,18 @@ public class UserLabRoles {
         }
     }
 
-    /**
-     * TODO: BONUS method
-     */
+
+    public Boolean hasLabRole(int labId, String role) {
+        ArrayList<String> roleStrings = new ArrayList<>();
+        for (LabRole theRole : getLabRoles(labId)) {
+            roleStrings.add(theRole.role);
+        }
+        if (roleStrings.contains(role)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     /**
      * util function for grabbing 1 item out of a list

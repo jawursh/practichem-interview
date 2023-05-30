@@ -6,7 +6,8 @@ import java.util.stream.*;
 public class Membershipandroles {
     // Example Data. Please do not change this code.
     public static List<User> USERS = Arrays.asList(
-            new User(1, "John Doe")
+            new User(1, "John Doe"),
+            new User(2, "Jane Doe")
     );
 
     public static List<Team> TEAMS = Arrays.asList(
@@ -29,7 +30,7 @@ public class Membershipandroles {
             new LabRole(1, 1, null, 1, "OWNER"),
             new LabRole(2, 1, null, 2, "MEMBER"),
             new LabRole(3, null, 1, 2, "GUEST"),
-            new LabRole(4, null, 1, 3, "MEMBER"),
+            new LabRole(4, 2, 1, 3, "MEMBER"),
             new LabRole(5, null, 2, 1, "ADMIN"),
             new LabRole(6, null, 2, 2, "ADMIN"),
             new LabRole(7, null, 2, 4, "GUEST")
